@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gudiya Magical Birthday Surprise!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. Global Styles and Enhanced Background (FINAL LOCAL IMAGE FIX) --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            
+            /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+            /* ***EDIT THIS LINE: ENSURE THE FILENAME AND EXTENSION ARE 100% CORRECT*** */
+            background: url('images/my_cute_background.png') no-repeat center center fixed; 
+            background-size: cover; 
+            /* Fallback color in case the image still fails */
+            background-color: #ffe0f0; 
+            /* If your image is a small, repeating pattern, use this line instead: */
+            /* background: url('images/YOUR_BACKGROUND_FILE_NAME.png') repeat; */
+            /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+            
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+            overflow-x: hidden;
+            color: #333;
+            position: relative; 
+        }
+
+        /* --- 1.1 Decorative Background Elements (Original, preserved) --- */
+        .decoration-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1; 
+        }
+        .decoration-layer div {
+            position: absolute; background-size: contain; background-repeat: no-repeat; opacity: 0.7; 
+        }
+        #decor-star-yellow { background-image: url('bg_assets/star_yellow.png'); width: 100px; height: 100px; top: 15%; left: 5%; transform: rotate(-10deg); }
+        #decor-star-pink { background-image: url('bg_assets/star_pink.png'); width: 60px; height: 60px; bottom: 10%; right: 15%; transform: rotate(20deg); }
+        #decor-cloud-blue { background-image: url('bg_assets/cloud_blue.png'); width: 150px; height: 100px; top: 18%; right: 5%; }
+        #decor-heart-small { background-image: url('bg_assets/heart_pink_small.png'); width: 25px; height: 25px; top: 50%; left: 10%; }
+        #decor-cake { background-image: url('bg_assets/cake_small.png'); width: 50px; height: 50px; top: 5%; left: 2%; }
+
+        /* --- 2. Confetti Animation (Original, preserved) --- */
+        .confetti-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 9999;
+        }
+        .confetti {
+            position: absolute; width: 10px; height: 10px; border-radius: 50%; opacity: 0; 
+            animation: confetti-fall 10s ease-out forwards; 
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--end-x), var(--end-y)) rotate(var(--rot)); opacity: 0; }
+        }
+        
+        /* --- 3. Main Container and Card Styling (PRESERVED CUTE CARD STYLES) --- */
+        .container { width: 95%; max-width: 450px; text-align: center; z-index: 10; }
+        .card {
+            background-color: white; 
+            padding: 30px 20px; 
+            border-radius: 30px; 
+            /* Soft pink border and enhanced shadow for cuteness */
+            border: 3px solid #ffc0cb; 
+            box-shadow: 
+                0 10px 30px rgba(255, 105, 180, 0.3), 
+                0 0 15px rgba(255, 105, 180, 0.5), 
+                0 0 5px rgba(255, 255, 255, 0.8) inset; 
+            margin-top: 20px; 
+            display: none;
+            opacity: 0; 
+            transform: scale(0.6); 
+            transition: opacity 0.3s ease-out, transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+        }
+        .card.active { opacity: 1; transform: scale(1); }
+
+        /* --- 4. Typography, Buttons, and Images (Original, preserved) --- */
+        h1, h2 { color: #ff69b4; font-weight: 800; }
+        .subtitle { font-size: 1.1em; color: #666; margin-top: 5px; }
+        .love-letter-text { font-family: 'Georgia', serif; font-size: 1.05em; line-height: 1.6; text-align: left; padding: 15px; }
+        
+        .pink-button, .green-button {
+            border: none; padding: 15px 35px; font-size: 1.2em; font-weight: 600; border-radius: 50px; cursor: pointer; margin-top: 25px; box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5); transition: background-color 0.3s, transform 0.15s, box-shadow 0.3s;
+        }
+        .pink-button { background-color: #ff69b4; color: white; }
+        .green-button { background-color: #6ee6a9; color: white; box-shadow: 0 5px 15px rgba(110, 230, 169, 0.5); }
+        .pink-button:hover, .green-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6); }
+        .pink-button:active, .green-button:active { transform: translateY(0); box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5); }
+
+        .decoration-img { max-width: 120px; height: auto; border-radius: 15px; } 
+        .cat-image { float: right; margin-left: 10px; }
+        .envelope-image { width: 150px; margin: 20px auto; display: block; }
+        
+        /* Album Art */
+        .album-art-wrapper {
+            position: relative; width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s;
+        }
+        .album-art-wrapper:hover { transform: scale(1.03); }
+        .album-art { width: 100%; height: auto; border-radius: 15px; display: block; }
+        .play-pause-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.4); border-radius: 15px; opacity: 1; transition: opacity 0.3s ease;
+        }
+        .play-pause-overlay .icon { width: 50px; height: 50px; filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); }
+        .album-item.playing .play-pause-overlay { opacity: 0; }
+        .album-item.playing .play-pause-overlay .play-icon { display: none !important; }
+        .album-item:not(.playing) .play-pause-overlay .pause-icon { display: none !important; }
+
+        /* --- 4.5 Photo Gallery Styles (NEW/MODIFIED) --- */
+        .photo-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 5px;
+        }
+        .photo-gallery-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 300px; /* Limit height for better display */
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+        .photo-caption {
+            font-size: 1em;
+            font-weight: 600;
+            color: #ff69b4;
+            text-align: center;
+        }
+        /* End of old floating styles here */
+
+
+        /* Animations */
+        .kitty-shake { animation: gentleShake 0.5s infinite ease-in-out; } 
+        @keyframes gentleShake {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(-3px) rotate(-1deg); }
+            75% { transform: translateX(3px) rotate(1deg); }
+        }
+        .button-pop { animation: intensePop 0.5s ease-out forwards; }
+        @keyframes intensePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        
+        /* --- 6. Cake Cutting Styles (MODIFIED FOR PARTICLE EFFECT) --- */
+        .cake-container { margin: 20px auto; position: relative; width: 250px; height: 250px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .cake-img { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transition: opacity 0.5s; }
+        #cake-cut { opacity: 0; }
+        #cut-line { position: absolute; top: 50%; left: 0; width: 100%; height: 3px; background-color: #ff69b4; transform: translateY(-50%) scaleX(0); transform-origin: left; transition: transform 0.5s; z-index: 6; }
+        #cut-message { margin-top: 20px; color: #ff69b4; font-weight: 600; font-size: 1.1em; display: none; }
+        
+        /* New styles for the magical particles */
+        .cake-particle {
+            position: absolute;
+            width: 8px; /* Small size */
+            height: 8px;
+            background-color: #ffc0cb; /* Pink color */
+            border-radius: 50%;
+            box-shadow: 0 0 5px #ff69b4; /* Glow */
+            pointer-events: none; /* Don't block clicks/touches on the cake */
+            animation: particle-fade 0.5s ease-out forwards; /* Fade out quickly */
+            z-index: 10;
+        }
+
+        @keyframes particle-fade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        /* --- 7. Kiss Explosion (Original, preserved) --- */
+        .kiss-explosion-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 9998; }
+        .kiss-emoji { position: absolute; font-size: 2em; opacity: 0; animation: float-up 2s ease-out forwards; }
+        @keyframes float-up {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x-end), var(--y-end)) scale(var(--scale)); opacity: 0; }
+        }
+
+        /* --- 8. Other Styles (Original, preserved) --- */
+        .carousel-wrapper { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+        .carousel { display: flex; overflow: hidden; width: 80%; margin: 0 auto; border-radius: 15px; position: relative; }
+        .carousel-item { min-width: 100%; transition: transform 0.4s ease-in-out; cursor: pointer; padding: 5px; }
+        .carousel-arrow { background: none; border: none; font-size: 2em; color: #ff69b4; cursor: pointer; padding: 10px; }
+        .wishes-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; }
+        .wish-card { background-color: #fce4ec; height: 150px; border-radius: 15px; position: relative; perspective: 1000px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+        .wish-card.flipped .card-inner { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; border-radius: 15px; padding: 15px; box-sizing: border-box; font-size: 0.95em; }
+        .card-front { background-color: #ff69b4; color: white; font-weight: 600; }
+        .card-back { background-color: white; color: #333; transform: rotateY(180deg); text-align: center; line-height: 1.4; }
+        #unlock-message { margin-top: 15px; color: #ff69b4; font-weight: 600; }
+    </style>
+</head>
+<body>
+    
+    <div class="decoration-layer">
+        <div id="decor-star-yellow"></div>
+        <div id="decor-star-pink"></div>
+        <div id="decor-cloud-blue"></div>
+        <div id="decor-heart-small"></div>
+        <div id="decor-cake"></div>
+    </div>
+
+    <div id="confetti-holder" class="confetti-container" style="display: none;"></div>
+    <div id="kiss-explosion-container" class="kiss-explosion-container"></div>
+    
+    <audio id="bg-music" loop>
+        <source src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="startup-sound" src="audio/startup_sound.mp3" preload="auto"></audio>
+    
+    <audio id="card-flip-sound" src="audio/chime.mp3" preload="auto"></audio> 
+    <div class="container">
+
+        <div id="greeting-screen" class="card">
+            <img class="decoration-img cat-image kitty-shake" src="images/kitty_greeting.png" alt="Cute Kitty"> 
+            <h1 style="font-size: 2.5em;">Happy Birthday, jimjam! 🎂✨</h1>
+            <p>Today is all about celebrating the most amazing person in my world. I've created something magical just for you on your special day...</p>
+            <p style="color: #ff69b4; font-weight: 600;">Ready for your birthday surprise?</p>
+            <button class="pink-button" onclick="goToScreen('letter-envelope-screen', this)">Let's Gooo..</button>
+        </div>
+
+        <div id="letter-envelope-screen" class="card">
+            <h2 style="font-size: 1.8em;">A Birthday Letter <span style="font-size: 1.2em;">💌</span></h2>
+            <p class="subtitle">From my heart to the lil hippo</p>
+            <img class="envelope-image" src="images/envelope.png" alt="Pink Envelope">
+            <p style="margin-top: 30px;">Click to open your birthday surprise</p>
+            <button class="pink-button" onclick="goToScreen('letter-content-screen', this)">Birthday Special Delivery 🎁</button>
+        </div>
+
+        <div id="letter-content-screen" class="card">
+            <img class="decoration-img cat-image" src="images/kitty_party.png" alt="Kitty with party hat"> 
+            <h2 style="color: #ff69b4; text-align: left; margin-bottom: 20px;">To Gudiya</h2>
+            <div class="love-letter-text">
+                <p style="color: #ff69b4; font-style: italic;">My dearest maalik,</p>
+                <p>just wanna say surry yar evrything is temperory but my fat shaming towards you is permanent 😋.</p>
+                <p style="text-align: right; color: #ff69b4; margin-top: 20px; font-weight: 600;">Forever yours 💕</p>
+            </div>
+            <button class="pink-button" onclick="goToScreen('playlist-screen', this)">Continue It ✨</button>
+        </div>
+
+        <div id="playlist-screen" class="card">
+            <h2 style="font-size: 1.8em;">Birthday Vibes Playlist <span style="font-size: 1.2em;">🎵</span></h2>
+            <p class="subtitle">Tap any album cover to start the music!</p>
+
+            <div class="carousel-wrapper">
+                <button class="carousel-arrow" onclick="changePlaylistSlide(-1)">&#10094;</button>
+                <div class="carousel" id="playlist-carousel">
+                    <div id="slide1" class="carousel-item album-item" onclick="playSong('audio/song1.mp3', 'slide1')">
+                        <div class="album-art-wrapper">
+                            <img class="album-art" src="images/album_art_1.png" alt="Song 1"> 
+                            <div class="play-pause-overlay">
+                                <img class="icon play-icon" src="images/play_logo.png" alt="Play">
+                                <img class="icon pause-icon" src="images/pause_logo.png" alt="Pause">
+                            </div>
+                        </div>
+                        <div class="song-title">Raabta</div>
+                        <div class="song-subtitle">Because today is all about YOU, queen! 👑</div>
+                    </div>
+                    <div id="slide2" class="carousel-item album-item" onclick="playSong('audio/song2.mp3', 'slide2')">
+                        <div class="album-art-wrapper">
+                            <img class="album-art" src="images/album_art_2.png" alt="Song 2"> 
+                            <div class="play-pause-overlay">
+                                <img class="icon play-icon" src="images/play_logo.png" alt="Play">
+                                <img class="icon pause-icon" src="images/pause_logo.png" alt="Pause">
+                            </div>
+                        </div>
+                        <div class="song-title">Dil Ka Jo Haal Hai</div>
+                        <div class="song-subtitle">Here's to making this year unforgettable ✨</div>
+                    </div>
+                    <div id="slide3" class="carousel-item album-item" onclick="playSong('audio/song3.mp3', 'slide3')">
+                        <div class="album-art-wrapper">
+                            <img class="album-art" src="images/album_art_3.png" alt="Song 3"> 
+                            <div class="play-pause-overlay">
+                                <img class="icon play-icon" src="images/play_logo.png" alt="Play">
+                                <img class="icon pause-icon" src="images/pause_logo.png" alt="Pause">
+                            </div>
+                        </div>
+                        <div class="song-title">Tum Ho Toh</div>
+                        <div class="song-subtitle">Every beat celebrates your beautiful heart ❤️</div>
+                    </div>
+                </div>
+                <button class="carousel-arrow" onclick="changePlaylistSlide(1)">&#10095;</button>
+            </div>
+            <button class="pink-button" onclick="goToScreen('seventeen-reveal-screen', this)">Continue to Next Surprise ✨</button>
+        </div>
+
+        <div id="seventeen-reveal-screen" class="card">
+            <h2 style="font-size: 2.2em; margin-bottom: 0;">Happy 23rd Birthday! 🎈</h2>
+            <p class="subtitle" style="margin-top: 5px;">just some reminder i always looked better then you!</p>
+
+            <div class="carousel-wrapper" style="margin-top: 30px;">
+                <button class="carousel-arrow" onclick="changePhotoSlide(-1)">&#10094;</button>
+                <div class="carousel" id="photo-carousel">
+                    <div id="photo1" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_1.jpeg" alt="Photo 1"> 
+                        <div class="photo-caption">yup i am the cute one</div>
+                    </div>
+                    <div id="photo2" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_2.jpeg" alt="Photo 2"> 
+                        <div class="photo-caption">kali</div>
+                    </div>
+                    <div id="photo3" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_3.jpeg" alt="Photo 3"> 
+                        <div class="photo-caption">Laughing at our inside jokes.</div>
+                    </div>
+                    <div id="photo4" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_4.jpeg" alt="Photo 4"> 
+                        <div class="photo-caption">filter bhi kuch nhi kar paya</div>
+                    </div>
+                    <div id="photo5" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_5.jpeg" alt="Photo 5"> 
+                        <div class="photo-caption">sundar tho hu me</div>
+                    </div>
+                    <div id="photo6" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_6.jpeg" alt="Photo 6"> 
+                        <div class="photo-caption">boniii</div>
+                    </div>
+                    <div id="photo7" class="carousel-item photo-item">
+                        <img class="photo-gallery-img" src="images/photo_7.jpeg" alt="Photo 7"> 
+                        <div class="photo-caption">My favorite picture of us!</div>
+                    </div>
+                </div>
+                <button class="carousel-arrow" onclick="changePhotoSlide(1)">&#10095;</button>
+            </div>
+            <p class="subtitle" style="margin-top: 15px;">Swipe or click the arrows! 😉</p>
+            <button class="pink-button" onclick="goToScreen('cake-screen', this)">Time to Cut the Cake! 🍰</button>
+        </div>
+        <div id="cake-screen" class="card">
+            <h2 style="font-size: 1.8em;">It's Cake Time! <span style="font-size: 1.2em;">🍰</span></h2>
+            <p class="subtitle">Make your birthday wish come true!</p>
+            <h3 style="color: #333;">Cut your birthday cake, birthday girl!</h3>
+            <p style="font-size: 0.9em; margin-bottom: 30px;">**Drag your finger or mouse across the cake to cut it with a magical trail!**</p>
+            <div id="cake-container" class="cake-container">
+                <img id="cake-uncut" class="cake-img" src="images/cake_uncut.png" alt="Uncut Birthday Cake">
+                <img id="cake-cut" class="cake-img" src="images/cake_cut.png" alt="Cut Birthday Cake">
+                <div id="drag-line" style="display: none;"></div> 
+                <div id="cut-line"></div>
+            </div>
+            <p id="cut-message" style="display: none;">Perfect Cut! 🎉 May this year bring you everything your heart desires! ✨</p>
+            <button id="cake-continue-btn" class="pink-button" onclick="goToScreen('wish-make-screen', this)" style="display: none;">Continue to Wish! ✨</button>
+        </div>
+
+        <div id="wish-make-screen" class="card">
+            <img class="decoration-img" style="width: 150px; margin-top: 10px;" src="images/wish_making.png" alt="Hello Kitty making a wish"> 
+            <h2 style="font-size: 2em;">Time to Make a Wish! ✨</h2>
+            <p class="subtitle">Close your eyes and make your birthday wish! ☀️</p>
+            <p style="margin-top: 20px;">Think of something wonderful for your new year!</p>
+            <button class="pink-button" onclick="goToScreen('wishes-reveal-screen', this)">I've Made My Wish! 🤞</button>
+        </div>
+
+        <div id="wishes-reveal-screen" class="card">
+            <h2 style="font-size: 1.8em;">Birthday Wishes Cards <span style="font-size: 1.2em;">🎁</span></h2>
+            <p class="subtitle">Click each card to reveal a birthday message!</p>
+            <div class="wishes-grid">
+                <div id="wish-1" class="wish-card" onclick="flipCard(this, 1)">
+                    <div class="card-inner">
+                        <div class="card-face card-front">Tap to Reveal Wish 1</div>
+                        <div class="card-face card-back">
+                            <p>Happy Birthday to the girl who makes every day feel like a celebration! 💕</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="wish-2" class="wish-card" onclick="flipCard(this, 2)">
+                    <div class="card-inner">
+                        <div class="card-face card-front">Tap to Reveal Wish 2</div>
+                        <div class="card-face card-back">
+                            <p>Another year of being absolutely incredible, beautiful, and perfect just the way you are! ✨</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="wish-3" class="wish-card" onclick="flipCard(this, 3)">
+                    <div class="card-inner">
+                        <div class="card-face card-front">Tap to Reveal Wish 3</div>
+                        <div class="card-face card-back">
+                            <p>sari line google se chapi gai hai mittar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p id="unlock-message">0 of 3 birthday wishes unlocked! Keep going ✨</p>
+            <button id="wishes-continue-btn" class="pink-button" onclick="goToScreen('final-letter-screen', this)" style="display: none;">Open Final Birthday Letter 💌</button>
+        </div>
+
+        <div id="final-letter-screen" class="card">
+            <h2 style="font-size: 1.8em;">Final Birthday Letter <span style="font-size: 1.2em;">💖</span></h2>
+            <p class="subtitle">A special message sealed with love</p>
+            <img class="decoration-img cat-image" src="images/kitty_heart.png" alt="Kitty holding heart"> 
+            <h3 style="color: #ff69b4; text-align: left; margin-top: 10px;">Final Birthday Love Letter</h3>
+            <div class="love-letter-text">
+                <p style="color: #ff69b4; font-style: italic;">My dearest fat person,</p>
+                <p>bus kuch nhi itna bolna cahta hu ki ajj tak jitna kam karwaya hai unte kam ka paymet mil jana chaiya meko! total sum kar liya hai no bhav tol!</p>
+            </div>
+            <button class="pink-button" onclick="goToScreen('sealed-letter-screen', this)">Seal The deal 👑</button>
+        </div>
+
+        <div id="sealed-letter-screen" class="card">
+            <h2 style="font-size: 1.8em;">Birthday Letter Sealed with Love <span style="font-size: 1.2em;">💖</span></h2>
+            <p class="subtitle">Happy Birthday, My Everything 🥳</p>
+            <h1 style="font-size: 2em; margin: 20px 0;">Forever Yours, Happy Birthday!</h1>
+            <button class="pink-button" onclick="stopAndRestart(this)">Experience Birthday Magic Again ✨</button>
+            <button class="green-button" style="margin-top: 15px;" onclick="sendKisses()">throw punches 👊‼️</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Global Variables ---
+        // Playlist Carousel
+        let currentPlaylistSlide = 0; 
+        let playlistSlides; 
+        
+        // Photo Carousel (NEW)
+        let currentPhotoSlide = 0; 
+        let photoSlides; 
+
+        let wishesUnlocked = 0;
+        const wishesCount = 3;
+        const bgMusic = document.getElementById('bg-music');
+        let currentPlayingId = null;
+
+        // Cake Cutting Variables
+        const cakeContainer = document.getElementById('cake-container');
+        const cutLine = document.getElementById('cut-line');
+        let isDragging = false;
+        let cutCompleted = false;
+        
+        // New variables for tracking the cut path
+        let pathLength = 0;
+        let lastX = 0;
+        let lastY = 0;
+        const MIN_CUT_LENGTH = 100; 
+
+        // Confetti Variables 
+        const confettiHolder = document.getElementById('confetti-holder');
+        const NUM_PARTICLES = 150; 
+        const CONFETTI_COLORS = ['#ff69b4', '#6ee6a9', '#fff5e6', '#fce4ec', '#ffc0cb'];
+        const CONFETTI_DURATION_MS = 10000; 
+
+        // Kiss Explosion Variables
+        const kissExplosionContainer = document.getElementById('kiss-explosion-container');
+        const kissEmojis = ['👊', '‼️', '💢', '😡', '💥'];
+        
+        const cardFlipSound = document.getElementById('card-flip-sound');
+
+        // --- Confetti Generation (NO CHANGE) ---
+        function generateConfetti() {
+            confettiHolder.innerHTML = ''; 
+            for (let i = 0; i < NUM_PARTICLES; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                const color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+                if (Math.random() > 0.5) { confetti.style.backgroundColor = color; } 
+                else { confetti.style.borderRadius = '50%'; confetti.style.backgroundColor = color; }
+                
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * (window.innerHeight / 3); 
+                confetti.style.left = `${startX}px`;
+                confetti.style.top = `${startY}px`;
+                
+                const range = 500; 
+                const endXOffset = (Math.random() * range * 2 - range); 
+                const endY = window.innerHeight * Math.random() + 100;
+                const rotation = Math.random() * 360 * 15; 
+                
+                confetti.style.setProperty('--end-x', `${endXOffset}px`);
+                confetti.style.setProperty('--end-y', `${endY}px`);
+                confetti.style.setProperty('--rot', `${rotation}deg`);
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                confettiHolder.appendChild(confetti);
+                setTimeout(() => { confetti.remove(); }, CONFETTI_DURATION_MS + 500); 
+            }
+        }
+
+        // --- Music Playback (NO CHANGE) ---
+        function playSong(audioSrc, albumId) {
+            const albumElement = document.getElementById(albumId);
+            if (currentPlayingId === albumId) {
+                if (!bgMusic.paused) {
+                    bgMusic.pause();
+                    albumElement.classList.remove('playing');
+                    return;
+                } else {
+                    bgMusic.play();
+                    albumElement.classList.add('playing');
+                    return;
+                }
+            }
+            if (currentPlayingId) { document.getElementById(currentPlayingId).classList.remove('playing'); }
+            bgMusic.pause();
+            bgMusic.src = audioSrc;
+            bgMusic.load();
+            currentPlayingId = albumId;
+            albumElement.classList.add('playing');
+            bgMusic.play().catch(e => console.log("Playback failed:", e));
+
+            bgMusic.onpause = function() { if (currentPlayingId) document.getElementById(currentPlayingId).classList.remove('playing'); };
+            bgMusic.onplaying = function() { if (currentPlayingId) document.getElementById(currentPlayingId).classList.add('playing'); };
+            bgMusic.onended = function() { if (currentPlayingId) document.getElementById(currentPlayingId).classList.remove('playing'); currentPlayingId = null; };
+        }
+        
+        function stopMusic() {
+            if (currentPlayingId) { document.getElementById(currentPlayingId).classList.remove('playing'); currentPlayingId = null; }
+            bgMusic.pause(); bgMusic.src = ''; bgMusic.load();
+        }
+        
+        function stopAndRestart(clickedButton = null) {
+            if (clickedButton) { clickedButton.classList.add('button-pop'); setTimeout(() => clickedButton.classList.remove('button-pop'), 300); }
+            stopMusic();
+            wishesUnlocked = 0;
+            document.querySelectorAll('.wish-card').forEach(card => card.classList.remove('flipped'));
+            document.getElementById('wishes-continue-btn').style.display = 'none';
+            document.getElementById('unlock-message').textContent = `0 of ${wishesCount} birthday wishes unlocked! Keep going ✨`;
+            
+            cutCompleted = false;
+            pathLength = 0; 
+            cutLine.style.transform = 'translateY(-50%) scaleX(0)'; 
+            document.getElementById('cake-uncut').style.opacity = '1';
+            document.getElementById('cake-cut').style.opacity = '0';
+            document.getElementById('cut-message').style.display = 'none';
+            document.getElementById('cake-continue-btn').style.display = 'none';
+
+            // Reset carousels
+            currentPlaylistSlide = 0; 
+            if (playlistSlides) updatePlaylistCarousel(); 
+            currentPhotoSlide = 0; 
+            if (photoSlides) updatePhotoCarousel(); 
+            
+            goToScreen('greeting-screen');
+        }
+
+        // --- Core Navigation (UPDATED) ---
+        function goToScreen(screenId, clickedButton = null) {
+            if (clickedButton) {
+                clickedButton.classList.add('button-pop');
+                setTimeout(() => { clickedButton.classList.remove('button-pop'); }, 300);
+            }
+            if (screenId === 'greeting-screen') {
+                confettiHolder.style.display = 'block';
+                generateConfetti(); 
+            } else if (confettiHolder.style.display !== 'none') {
+                setTimeout(() => { confettiHolder.style.display = 'none'; }, CONFETTI_DURATION_MS); 
+            }
+
+            document.querySelectorAll('.card.active').forEach(card => card.classList.remove('active'));
+            document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
+            
+            const nextScreen = document.getElementById(screenId);
+            nextScreen.style.display = 'block';
+            setTimeout(() => { nextScreen.classList.add('active'); }, 10); 
+            
+            // Initialization for carousels
+            if (screenId === 'playlist-screen') { 
+                currentPlaylistSlide = 0; 
+                if (playlistSlides) updatePlaylistCarousel(); 
+            }
+            if (screenId === 'seventeen-reveal-screen') {
+                currentPhotoSlide = 0;
+                if (photoSlides) updatePhotoCarousel();
+            }
+        }
+
+        // --- Playlist Carousel (RENAMED/FIXED) ---
+        function updatePlaylistCarousel() {
+            // Check if playlistSlides is defined and an iterable object
+            if (playlistSlides && playlistSlides.length) {
+                playlistSlides.forEach((slide) => { 
+                    slide.style.transform = `translateX(-${currentPlaylistSlide * 100}%)`; 
+                });
+            }
+        }
+        function changePlaylistSlide(direction) {
+            currentPlaylistSlide += direction;
+            if (currentPlaylistSlide < 0) { currentPlaylistSlide = playlistSlides.length - 1; } 
+            else if (currentPlaylistSlide >= playlistSlides.length) { currentPlaylistSlide = 0; }
+            updatePlaylistCarousel();
+        }
+
+        // --- Photo Carousel (NEW FUNCTIONS) ---
+        function updatePhotoCarousel() {
+            // Check if photoSlides is defined and an iterable object
+            if (photoSlides && photoSlides.length) {
+                photoSlides.forEach((slide) => { 
+                    slide.style.transform = `translateX(-${currentPhotoSlide * 100}%)`; 
+                });
+            }
+        }
+        function changePhotoSlide(direction) {
+            currentPhotoSlide += direction;
+            if (currentPhotoSlide < 0) { currentPhotoSlide = photoSlides.length - 1; } 
+            else if (currentPhotoSlide >= photoSlides.length) { currentPhotoSlide = 0; }
+            updatePhotoCarousel();
+        }
+
+
+        // --- Cake Cutting (NO CHANGE) ---
+        function getClientCoordinates(e) {
+            if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            return { x: e.clientX, y: e.clientY };
+        }
+
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.classList.add('cake-particle');
+            
+            const size = 5 + Math.random() * 5; 
+            const colorIndex = Math.floor(Math.random() * CONFETTI_COLORS.length);
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = CONFETTI_COLORS[colorIndex];
+
+            particle.style.left = `${x - size / 2}px`;
+            particle.style.top = `${y - size / 2}px`;
+            
+            particle.style.transform = `scale(0) rotate(${Math.random() * 360}deg)`;
+
+            cakeContainer.appendChild(particle);
+
+            setTimeout(() => { particle.remove(); }, 500);
+        }
+
+        function startCut(e) {
+            if (cutCompleted) return;
+            isDragging = true;
+            pathLength = 0; 
+            const coords = getClientCoordinates(e);
+            const rect = cakeContainer.getBoundingClientRect();
+            
+            lastX = coords.x - rect.left;
+            lastY = coords.y - rect.top;
+            
+            createParticle(lastX, lastY);
+        }
+        
+        function moveCut(e) {
+            if (!isDragging || cutCompleted) return;
+            e.preventDefault(); 
+
+            const coords = getClientCoordinates(e);
+            const rect = cakeContainer.getBoundingClientRect();
+            const currentX = coords.x - rect.left;
+            const currentY = coords.y - rect.top;
+
+            const deltaX = currentX - lastX;
+            const deltaY = currentY - lastY;
+            const segmentLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            pathLength += segmentLength;
+
+            createParticle(currentX, currentY);
+
+            lastX = currentX;
+            lastY = currentY;
+        }
+
+        function endCut(e) {
+            if (!isDragging || cutCompleted) return;
+            isDragging = false;
+            
+            if (pathLength >= MIN_CUT_LENGTH) {
+                performCutAnimation();
+            }
+        }
+
+        function performCutAnimation() {
+            cutCompleted = true;
+            cutLine.style.transform = 'translateY(-50%) scaleX(1)';
+            setTimeout(() => {
+                document.getElementById('cake-uncut').style.opacity = '0';
+                document.getElementById('cake-cut').style.opacity = '1';
+                document.getElementById('cut-message').style.display = 'block';
+                document.getElementById('cake-continue-btn').style.display = 'inline-block';
+                generateConfetti();
+            }, 500);
+        }
+        cakeContainer.addEventListener('mousedown', startCut);
+        cakeContainer.addEventListener('touchstart', startCut, {passive: false});
+        window.addEventListener('mousemove', moveCut);
+        window.addEventListener('touchmove', moveCut, {passive: false});
+        window.addEventListener('mouseup', endCut);
+        window.addEventListener('touchend', endCut);
+
+        // --- Wish Card Flipping (NO CHANGE) ---
+        function flipCard(cardElement, id) {
+            if (cardElement.classList.contains('flipped')) return;
+            
+            if (cardFlipSound) {
+                cardFlipSound.currentTime = 0; 
+                cardFlipSound.play().catch(e => console.log("Card flip sound error:", e));
+            }
+            
+            cardElement.classList.add('flipped');
+            wishesUnlocked++;
+            const msg = document.getElementById('unlock-message');
+            msg.textContent = `${wishesUnlocked} of ${wishesCount} birthday wishes unlocked! Keep going ✨`;
+            if (wishesUnlocked === wishesCount) {
+                msg.textContent = "All wishes unlocked! You are so loved! 💖";
+                document.getElementById('wishes-continue-btn').style.display = 'inline-block';
+                sendKisses(); 
+            }
+        }
+
+        // --- Kiss Explosion (NO CHANGE) ---
+        function sendKisses() {
+            for (let i = 0; i < 30; i++) {
+                const kiss = document.createElement('div');
+                kiss.classList.add('kiss-emoji');
+                kiss.textContent = kissEmojis[Math.floor(Math.random() * kissEmojis.length)];
+                kiss.style.left = `${Math.random() * 100}%`;
+                kiss.style.bottom = '-50px'; 
+                kiss.style.setProperty('--x-end', `${(Math.random() - 0.5) * 200}px`);
+                kiss.style.setProperty('--y-end', `${-(window.innerHeight + 100)}px`);
+                kiss.style.setProperty('--scale', 0.5 + Math.random() * 1.5);
+                kiss.style.animationDuration = `${1.5 + Math.random() * 2}s`;
+                kissExplosionContainer.appendChild(kiss);
+                setTimeout(() => { kiss.remove(); }, 4000);
+            }
+        }
+
+        // --- INITIALIZATION & STARTUP SOUND (UPDATED) ---
+        window.onload = function() {
+            // Initialize carousel NodeLists 
+            playlistSlides = document.querySelectorAll('#playlist-carousel .carousel-item');
+            photoSlides = document.querySelectorAll('#photo-carousel .carousel-item');
+
+
+            // 1. Show the greeting screen
+            document.getElementById('greeting-screen').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('greeting-screen').classList.add('active');
+                confettiHolder.style.display = 'block';
+                generateConfetti();
+            }, 100);
+
+            // 2. PLAY SOUND ON LOAD LOGIC
+            var loadSound = document.getElementById('startup-sound');
+            if (loadSound) {
+                 // Try to play sound immediately (may be blocked by browser policy)
+                loadSound.play().catch(e => {
+                    console.log("Startup sound blocked. Waiting for user interaction.");
+                    // Play sound on the first interaction
+                    document.body.addEventListener('click', function handler() {
+                        loadSound.play().catch(err => console.error("Error playing startup sound:", err));
+                        document.body.removeEventListener('click', handler);
+                    }, { once: true });
+                });
+            }
+        };
+    </script>
+</body>
+</html>
